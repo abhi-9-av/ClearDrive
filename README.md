@@ -1,9 +1,11 @@
 # ClearDrive 🗂️
 
-**Turn your chaotic family drive into a clean, organized archive.**  
-100% local. No cloud. No subscription. No data leaves your machine.
+> Turn your chaotic folders into a clean, organized archive.
 
----
+A modern desktop application that automatically organizes files into a structured folder hierarchy based on metadata—built with Python.
+
+![ClearDrive GUI](assets/screenshots/gui-v0.2.png)
+
 
 ## The Problem
 
