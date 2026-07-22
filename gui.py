@@ -1,11 +1,29 @@
 import customtkinter as ctk
+from tkinter import filedialog
+
+
+# -----------------------------
+# Function to Select Folder
+# -----------------------------
+def select_folder():
+    folder = filedialog.askdirectory()
+
+    if folder:
+        status.configure(
+            text=f"📂 Selected Folder:\n{folder}"
+        )
+
+        # Enable the Start button
+        start_button.configure(state="normal")
+
+        print(folder)
 
 
 # -----------------------------
 # App Configuration
 # -----------------------------
-ctk.set_appearance_mode("System")      # System / Dark / Light
-ctk.set_default_color_theme("blue")    # blue / green / dark-blue
+ctk.set_appearance_mode("System")
+ctk.set_default_color_theme("blue")
 
 
 # -----------------------------
@@ -44,7 +62,8 @@ select_button = ctk.CTkButton(
     app,
     text="Select Folder",
     width=200,
-    height=40
+    height=40,
+    command=select_folder
 )
 select_button.pack(pady=30)
 
@@ -53,7 +72,8 @@ start_button = ctk.CTkButton(
     app,
     text="Start Organizing",
     width=200,
-    height=40
+    height=40,
+    state="disabled"          # Disabled initially
 )
 start_button.pack()
 
