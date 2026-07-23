@@ -1,3 +1,4 @@
+import organizer
 import customtkinter as ctk
 from tkinter import filedialog
 
@@ -46,13 +47,44 @@ def select_output_folder():
 # Popup Actions
 # -----------------------------
 def dry_run():
-    status.configure(text="🧪 Dry Run selected.")
     popup.destroy()
+
+    status.configure(text="🧪 Running Dry Run...")
+    app.update()
+
+    try:
+        organizer.organize(
+            source_dirs=[source_folder],
+            output_dir=output_folder,
+            dry_run=True,
+            move=False
+        )
+
+        status.configure(text="✅ Dry Run Complete!")
+
+    except Exception as e:
+        status.configure(text=f"❌ Error: {e}")
+
 
 
 def organize_files():
-    status.configure(text="📂 Organize Files selected.")
     popup.destroy()
+
+    status.configure(text="📂 Organizing Files...")
+    app.update()
+
+    try:
+        organizer.organize(
+            source_dirs=[source_folder],
+            output_dir=output_folder,
+            dry_run=False,
+            move=False
+        )
+
+        status.configure(text="✅ Organization Complete!")
+
+    except Exception as e:
+        status.configure(text=f"❌ Error: {e}")
 
 
 def start_organizing():
