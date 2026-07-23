@@ -9,7 +9,7 @@ output_folder = ""
 
 
 # -----------------------------
-# Helper Function
+# Helper Functions
 # -----------------------------
 def check_ready():
     if source_folder and output_folder:
@@ -18,9 +18,6 @@ def check_ready():
         start_button.configure(state="disabled")
 
 
-# -----------------------------
-# Select Source Folder
-# -----------------------------
 def select_source_folder():
     global source_folder
 
@@ -28,21 +25,11 @@ def select_source_folder():
 
     if folder:
         source_folder = folder
-
-        source_status.configure(
-            text=f"📂 {folder}"
-        )
-
-        status.configure(
-            text="Source folder selected."
-        )
-
+        source_status.configure(text=f"📂 {folder}")
+        status.configure(text="Source folder selected.")
         check_ready()
 
 
-# -----------------------------
-# Select Output Folder
-# -----------------------------
 def select_output_folder():
     global output_folder
 
@@ -50,16 +37,84 @@ def select_output_folder():
 
     if folder:
         output_folder = folder
-
-        output_status.configure(
-            text=f"📁 {folder}"
-        )
-
-        status.configure(
-            text="Output folder selected."
-        )
-
+        output_status.configure(text=f"📁 {folder}")
+        status.configure(text="Output folder selected.")
         check_ready()
+
+
+# -----------------------------
+# Popup Actions
+# -----------------------------
+def dry_run():
+    status.configure(text="🧪 Dry Run selected.")
+    popup.destroy()
+
+
+def organize_files():
+    status.configure(text="📂 Organize Files selected.")
+    popup.destroy()
+
+
+def start_organizing():
+    global popup
+
+    popup = ctk.CTkToplevel(app)
+    popup.title("Start Organizing")
+    popup.geometry("500x420")
+    popup.resizable(False, False)
+
+    ctk.CTkLabel(
+        popup,
+        text="🚀 Start Organizing",
+        font=("Segoe UI", 22, "bold")
+    ).pack(pady=(20, 10))
+
+    ctk.CTkLabel(
+        popup,
+        text="Source Folder",
+        font=("Segoe UI", 15, "bold")
+    ).pack()
+
+    ctk.CTkLabel(
+        popup,
+        text=source_folder,
+        wraplength=450
+    ).pack(pady=(0, 15))
+
+    ctk.CTkLabel(
+        popup,
+        text="Output Folder",
+        font=("Segoe UI", 15, "bold")
+    ).pack()
+
+    ctk.CTkLabel(
+        popup,
+        text=output_folder,
+        wraplength=450
+    ).pack(pady=(0, 20))
+
+    ctk.CTkButton(
+        popup,
+        text="🧪 Dry Run",
+        width=220,
+        command=dry_run
+    ).pack(pady=8)
+
+    ctk.CTkButton(
+        popup,
+        text="📂 Organize Files",
+        width=220,
+        command=organize_files
+    ).pack(pady=8)
+
+    ctk.CTkButton(
+        popup,
+        text="Cancel",
+        width=220,
+        fg_color="gray40",
+        hover_color="gray25",
+        command=popup.destroy
+    ).pack(pady=20)
 
 
 # -----------------------------
@@ -82,30 +137,27 @@ app.minsize(750, 500)
 # -----------------------------
 # Title
 # -----------------------------
-title = ctk.CTkLabel(
+ctk.CTkLabel(
     app,
     text="📁 ClearDrive",
     font=("Segoe UI", 28, "bold")
-)
-title.pack(pady=(20, 10))
+).pack(pady=(20, 10))
 
-subtitle = ctk.CTkLabel(
+ctk.CTkLabel(
     app,
     text="Organize your files effortlessly",
     font=("Segoe UI", 14)
-)
-subtitle.pack()
+).pack()
 
 
 # -----------------------------
 # Source Folder
 # -----------------------------
-source_label = ctk.CTkLabel(
+ctk.CTkLabel(
     app,
     text="Source Folder",
     font=("Segoe UI", 16, "bold")
-)
-source_label.pack(pady=(25, 5))
+).pack(pady=(25, 5))
 
 source_status = ctk.CTkLabel(
     app,
@@ -114,23 +166,21 @@ source_status = ctk.CTkLabel(
 )
 source_status.pack()
 
-source_button = ctk.CTkButton(
+ctk.CTkButton(
     app,
     text="Browse Source Folder",
     command=select_source_folder
-)
-source_button.pack(pady=10)
+).pack(pady=10)
 
 
 # -----------------------------
 # Output Folder
 # -----------------------------
-output_label = ctk.CTkLabel(
+ctk.CTkLabel(
     app,
     text="Output Folder",
     font=("Segoe UI", 16, "bold")
-)
-output_label.pack(pady=(20, 5))
+).pack(pady=(20, 5))
 
 output_status = ctk.CTkLabel(
     app,
@@ -139,12 +189,11 @@ output_status = ctk.CTkLabel(
 )
 output_status.pack()
 
-output_button = ctk.CTkButton(
+ctk.CTkButton(
     app,
     text="Browse Output Folder",
     command=select_output_folder
-)
-output_button.pack(pady=10)
+).pack(pady=10)
 
 
 # -----------------------------
@@ -153,7 +202,8 @@ output_button.pack(pady=10)
 start_button = ctk.CTkButton(
     app,
     text="Start Organizing",
-    state="disabled"
+    state="disabled",
+    command=start_organizing
 )
 start_button.pack(pady=30)
 
