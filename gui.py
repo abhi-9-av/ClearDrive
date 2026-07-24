@@ -1,3 +1,4 @@
+import threading
 import organizer
 import customtkinter as ctk
 from tkinter import filedialog
@@ -42,50 +43,44 @@ def select_output_folder():
         status.configure(text="Output folder selected.")
         check_ready()
 
+def run_organizer(dry_run):
+    try:
+        if dry_run:
+            status.configure(text="🧪 Running Dry Run...")
+        else:
+            status.configure(text="📂 Organizing Files...")
 
+        organizer.organize(
+            source_dirs=[source_folder],
+            output_dir=output_folder,
+            dry_run=dry_run,
+            move=False
+        )
+
+        status.configure(text="✅ Finished Successfully!")
+
+    except Exception as e:
+        status.configure(text=f"❌ Error: {e}")
 # -----------------------------
 # Popup Actions
 # -----------------------------
 def dry_run():
     popup.destroy()
 
-    status.configure(text="🧪 Running Dry Run...")
-    app.update()
-
-    try:
-        organizer.organize(
-            source_dirs=[source_folder],
-            output_dir=output_folder,
-            dry_run=True,
-            move=False
-        )
-
-        status.configure(text="✅ Dry Run Complete!")
-
-    except Exception as e:
-        status.configure(text=f"❌ Error: {e}")
-
-
+    threading.Thread(
+        target=run_organizer,
+        args=(True,),
+        daemon=True
+    ).start()
 
 def organize_files():
     popup.destroy()
 
-    status.configure(text="📂 Organizing Files...")
-    app.update()
-
-    try:
-        organizer.organize(
-            source_dirs=[source_folder],
-            output_dir=output_folder,
-            dry_run=False,
-            move=False
-        )
-
-        status.configure(text="✅ Organization Complete!")
-
-    except Exception as e:
-        status.configure(text=f"❌ Error: {e}")
-
+    threading.Thread(
+        target=run_organizer,
+        args=(False,),
+        daemon=True
+    ).start()
 
 def start_organizing():
     global popup
